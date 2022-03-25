@@ -1,5 +1,8 @@
+import 'dart:math';
+
 import 'package:copic/common/widgets/outlined_button.dart';
 import 'package:copic/screens/colors/models.dart';
+import 'package:copic/screens/colors/widgets.dart';
 import 'package:flutter/material.dart';
 
 import 'package:copic/config/constants.dart';
@@ -17,7 +20,9 @@ class ColorsGuessScreen extends StatefulHookWidget {
 }
 
 class _ColorsGuessScreenState extends State<ColorsGuessScreen> {
-  final List<ColorShape> _colorsToTest = colors.toList()..shuffle();
+  final List<ColorShape> _colorsToTest = colors.toList()
+    ..getRange(0, 2)
+    ..shuffle();
   final Duration timePerColor = const Duration(seconds: 5);
 
   TabController? _tabController;
@@ -27,6 +32,7 @@ class _ColorsGuessScreenState extends State<ColorsGuessScreen> {
 
   @override
   Widget build(BuildContext context) {
+    // debugPrint('${_colorsToTest.getRange(0, 2).length}');
     _tabController = useTabController(initialLength: _colorsToTest.length);
     _animationController = useAnimationController(
       duration: timePerColor,
@@ -62,7 +68,7 @@ class _ColorsGuessScreenState extends State<ColorsGuessScreen> {
                 child: Column(
                   children: [
                     LinearProgressIndicator(value: animationValue),
-                    const SizedBox(height: 30),
+                    const SizedBox(height: 40),
                     Expanded(
                       child: TabBarView(
                         controller: _tabController,
@@ -71,6 +77,8 @@ class _ColorsGuessScreenState extends State<ColorsGuessScreen> {
                         children: _buildTabs(),
                       ),
                     ),
+                    Text(
+                        '${_tabController!.index + 1} of ${_colorsToTest.length}')
                   ],
                 ),
               ),
@@ -87,39 +95,10 @@ class _ColorsGuessScreenState extends State<ColorsGuessScreen> {
     for (var i = 0; i < _colorsToTest.length; i++) {
       ColorShape colorShape = _colorsToTest[i];
 
-      tabs.add(
-        Column(
-          children: [
-            Container(
-              padding: const EdgeInsets.all(30),
-              width: 205,
-              height: 205,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                border: Border.fromBorderSide(
-                  BorderSide(color: Colors.black.withOpacity(0.25)),
-                ),
-              ),
-              child: SvgPicture.asset(
-                colorShape.svgUrl,
-                color: colorShape.color,
-              ),
-            ),
-            const SizedBox(height: 40),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                CustomOutlinedButton(
-                    onPressed: () => _advanceToNextColor(color: colorShape),
-                    label: 'Orange'),
-                CustomOutlinedButton(
-                    onPressed: () => _advanceToNextColor(color: colorShape),
-                    label: 'Red'),
-              ],
-            ),
-          ],
-        ),
-      );
+      tabs.add(ColorShapeTab(
+          colorShape: colorShape,
+          colorsToTest: _colorsToTest,
+          onAdvance: _advanceToNextColor));
     }
 
     return tabs;
