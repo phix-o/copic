@@ -41,6 +41,7 @@ class _ColorsGuessScreenState extends State<ColorsGuessScreen> {
   @override
   Widget build(BuildContext context) {
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
+    Color primaryColor = Theme.of(context).primaryColor;
 
     _tabController = useTabController(initialLength: _colorsToTest.length + 1);
     _animationController = useAnimationController(
@@ -77,7 +78,11 @@ class _ColorsGuessScreenState extends State<ColorsGuessScreen> {
                 child: Column(
                   children: [
                     !_isEndGame
-                        ? LinearProgressIndicator(value: animationValue)
+                        ? LinearProgressIndicator(
+                            value: animationValue,
+                            minHeight: 10,
+                            color: primaryColor,
+                            backgroundColor: primaryColor.withOpacity(0.1))
                         : const SizedBox.shrink(),
                     const SizedBox(height: 40),
                     Expanded(
