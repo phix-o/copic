@@ -6,20 +6,26 @@ class ColorShape {
   final String name;
   final Color color;
   final String svgUrl;
+  final Color shadowColor;
 
   ColorShape({
     required this.name,
     required this.color,
     required this.svgUrl,
+    required this.shadowColor,
   });
 
   static ColorShape fromJson(Map<String, String> json) {
     Color color = HexColor.fromHex(json['color']!);
+    Color shadowColor = json['shadowColor'] != null
+        ? HexColor.fromHex(json['shadowColor']!)
+        : color;
 
     return ColorShape(
       name: json['name']!,
       color: color,
       svgUrl: json['svgUrl']!,
+      shadowColor: shadowColor,
     );
   }
 }
@@ -34,8 +40,19 @@ List<ColorShape> colors = [
   },
   {'name': 'pink', 'color': '#FFFF00FF', 'svgUrl': 'assets/shapes/star.svg'},
   {
+    'name': 'black',
+    'color': '#FFF000000',
+    'svgUrl': 'assets/shapes/poly-5.svg'
+  },
+  {
+    'name': 'white',
+    'color': '#FFFFFFFF',
+    'shadowColor': '#FF000000',
+    'svgUrl': 'assets/shapes/poly-3.svg'
+  },
+  {
     'name': 'orange',
     'color': '#FFFF7700',
-    'svgUrl': 'assets/shapes/circle.svg'
+    'svgUrl': 'assets/shapes/poly-8.svg'
   },
 ].map((color) => ColorShape.fromJson(color)).toList();

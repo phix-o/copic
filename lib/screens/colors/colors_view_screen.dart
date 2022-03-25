@@ -103,7 +103,7 @@ class ColorsViewScreen extends HookWidget {
                 style: textTheme.bodyLarge
                     ?.copyWith(color: colorShape.color, fontSize: 28, shadows: [
                   BoxShadow(
-                    color: colorShape.color.withOpacity(0.36),
+                    color: colorShape.shadowColor.withOpacity(0.36),
                     offset: const Offset(0, 2),
                     blurRadius: 6,
                   ),
