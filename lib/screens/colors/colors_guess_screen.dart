@@ -1,14 +1,13 @@
 import 'dart:math';
 
-import 'package:copic/common/widgets/outlined_button.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
+
 import 'package:copic/screens/colors/models.dart';
 import 'package:copic/screens/colors/widgets.dart';
-import 'package:flutter/material.dart';
-
 import 'package:copic/config/constants.dart';
 import 'package:copic/common/functional.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
 class ColorsGuessScreen extends StatefulHookWidget {
   const ColorsGuessScreen({Key? key}) : super(key: key);
@@ -20,20 +19,30 @@ class ColorsGuessScreen extends StatefulHookWidget {
 }
 
 class _ColorsGuessScreenState extends State<ColorsGuessScreen> {
-  final List<ColorShape> _colorsToTest = colors.toList()
-    ..getRange(0, 2)
-    ..shuffle();
   final Duration timePerColor = const Duration(seconds: 5);
 
+  List<ColorShape> _colorsToTest = colors..shuffle();
   TabController? _tabController;
   AnimationController? _animationController;
 
   DateTime _lastColorAdvance = DateTime.now();
 
+  int _correctGuesses = 0;
+  bool _isEndGame = false;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _colorsToTest = _colorsToTest.getRange(0, 5).toList();
+    debugPrint('$_colorsToTest');
+  }
+
   @override
   Widget build(BuildContext context) {
-    // debugPrint('${_colorsToTest.getRange(0, 2).length}');
-    _tabController = useTabController(initialLength: _colorsToTest.length);
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
+
+    _tabController = useTabController(initialLength: _colorsToTest.length + 1);
     _animationController = useAnimationController(
       duration: timePerColor,
     )..addStatusListener((status) {
@@ -50,7 +59,7 @@ class _ColorsGuessScreenState extends State<ColorsGuessScreen> {
       });
 
     double animationValue = useAnimation(_animationController!);
-    if (_animationController != null && !_animationController!.isAnimating) {
+    if (!_isEndGame && !_animationController!.isAnimating) {
       _animationController!.forward();
     }
 
@@ -59,7 +68,7 @@ class _ColorsGuessScreenState extends State<ColorsGuessScreen> {
         ...buildScaffoldBackground(context),
         Center(
           child: Container(
-            height: 520,
+            height: 540,
             width: double.infinity,
             padding: const EdgeInsets.symmetric(horizontal: kAppPaddingValue),
             child: Card(
@@ -67,18 +76,23 @@ class _ColorsGuessScreenState extends State<ColorsGuessScreen> {
                 padding: const EdgeInsets.all(25.0),
                 child: Column(
                   children: [
-                    LinearProgressIndicator(value: animationValue),
+                    !_isEndGame
+                        ? LinearProgressIndicator(value: animationValue)
+                        : const SizedBox.shrink(),
                     const SizedBox(height: 40),
                     Expanded(
                       child: TabBarView(
                         controller: _tabController,
-                        // physics: const NeverScrollableScrollPhysics(
-                        //     parent: ScrollPhysics()),
+                        physics: const NeverScrollableScrollPhysics(
+                            parent: ScrollPhysics()),
                         children: _buildTabs(),
                       ),
                     ),
-                    Text(
-                        '${_tabController!.index + 1} of ${_colorsToTest.length}')
+                    !_isEndGame
+                        ? Text(
+                            '${_tabController!.index + 1} of ${_colorsToTest.length}',
+                          )
+                        : const SizedBox.shrink()
                   ],
                 ),
               ),
@@ -98,23 +112,48 @@ class _ColorsGuessScreenState extends State<ColorsGuessScreen> {
       tabs.add(ColorShapeTab(
           colorShape: colorShape,
           colorsToTest: _colorsToTest,
-          onAdvance: _advanceToNextColor));
+          onAdvance: (ColorShape guessedColor) {
+            if (guessedColor.name == colorShape.name) {
+              setState(() {
+                _correctGuesses += 1;
+              });
+            }
+
+            _animationController?.stop();
+            Future.delayed(
+              const Duration(milliseconds: 300),
+              () => _advanceToNextColor(),
+            );
+          }));
     }
 
+    tabs.add(CompletionTab(
+      score: _correctGuesses,
+      total: _colorsToTest.length,
+    ));
     return tabs;
   }
 
-  void _advanceToNextColor({ColorShape? color}) {
+  void _advanceToNextColor() {
     TabController tabController = _tabController!;
     AnimationController animationController = _animationController!;
 
     if (tabController.index == _colorsToTest.length - 1) {
-      return debugPrint('The end');
+      setState(() {
+        _isEndGame = true;
+      });
+      debugPrint('The end: $_correctGuesses');
     }
 
-    debugPrint("Current Index: ${tabController.index}");
+    debugPrint("Current Index: ${tabController.index} $_isEndGame");
 
-    tabController.index += 1;
-    animationController.reset();
+    tabController.index =
+        min(_colorsToTest.length + 1, tabController.index + 1);
+
+    if (_isEndGame) {
+      animationController.stop();
+    } else {
+      animationController.reset();
+    }
   }
 }

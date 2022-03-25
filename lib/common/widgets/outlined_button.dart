@@ -1,14 +1,15 @@
-import 'package:copic/config/constants.dart';
 import 'package:flutter/material.dart';
 
 class CustomOutlinedButton extends StatelessWidget {
   final void Function() onPressed;
   final String label;
+  final EdgeInsets padding;
 
   const CustomOutlinedButton({
     Key? key,
     required this.onPressed,
     required this.label,
+    this.padding = const EdgeInsets.symmetric(horizontal: 45, vertical: 20),
   }) : super(key: key);
 
   @override
@@ -20,7 +21,9 @@ class CustomOutlinedButton extends StatelessWidget {
       onTapDown: _onTapDown,
       onTapUp: _onTapUp,
       child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 45, vertical: 20),
+        // padding: padding,
+        alignment: Alignment.center,
+        width: double.infinity,
         decoration: BoxDecoration(
           color: Colors.transparent,
           borderRadius: BorderRadius.circular(1000),
@@ -30,7 +33,10 @@ class CustomOutlinedButton extends StatelessWidget {
         ),
         child: Text(
           label,
-          style: textTheme.button?.copyWith(color: textTheme.bodyText2?.color),
+          style: textTheme.button?.copyWith(
+            color: textTheme.bodyText2?.color,
+            fontSize: 14,
+          ),
         ),
       ),
     );

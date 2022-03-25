@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:copic/common/widgets/widgets.dart';
 import 'package:copic/screens/home_screen.dart';
+import 'package:copic/screens/screens.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -48,8 +49,6 @@ class ColorsViewScreen extends HookWidget {
                         padding: const EdgeInsets.all(5.0).copyWith(top: 20.0),
                         child: TabBarView(
                           controller: tabController,
-                          // physics: const NeverScrollableScrollPhysics(
-                          //     parent: ScrollPhysics()),
                           children: _buildTabs(
                             textTheme,
                             tabsCount,
@@ -60,13 +59,15 @@ class ColorsViewScreen extends HookWidget {
                     ),
                   ),
                   Transform.translate(
-                      offset: const Offset(0, -35),
-                      child: Button(
-                        onPressed: () => _advanceShapes(tabController),
-                        label: isLastColorTab.value
-                            ? 'Start Guessing'
-                            : 'Next Colors',
-                      )),
+                    offset: const Offset(0, -35),
+                    child: isLastColorTab.value
+                        ? Button(
+                            onPressed: () => _startGame(context),
+                            label: 'Start Guessing')
+                        : Button(
+                            onPressed: () => _advanceShapes(tabController),
+                            label: 'Next Colors'),
+                  ),
                 ],
               ),
             ),
@@ -129,5 +130,9 @@ class ColorsViewScreen extends HookWidget {
 
   void _endGame(BuildContext context) {
     Navigator.of(context).pushNamed(HomeScreen.routeName);
+  }
+
+  void _startGame(BuildContext context) {
+    Navigator.of(context).pushNamed(ColorsGuessScreen.routeName);
   }
 }
