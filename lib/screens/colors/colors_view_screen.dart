@@ -17,7 +17,7 @@ class ColorsViewScreen extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersive);
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
     TextTheme textTheme = Theme.of(context).textTheme;
 
     const colorsPerTab = 4;
