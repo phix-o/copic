@@ -38,11 +38,11 @@ class Button extends StatelessWidget {
 
   void _onTapDown(TapDownDetails details) {
     // TODO Shrink button
-    debugPrint('Tap Down: $details');
+    // debugPrint('Tap Down: $details');
   }
 
   void _onTapUp(TapUpDetails details) {
     // TODO Restore button size
-    debugPrint('Tap Up: $details');
+    // debugPrint('Tap Up: $details');
   }
 }

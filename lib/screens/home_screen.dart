@@ -1,5 +1,5 @@
-import 'package:copic/common/widgets.dart';
-import 'package:copic/config/constants.dart';
+import 'package:copic/common/functional.dart';
+import 'package:copic/common/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -17,7 +17,7 @@ class HomeScreen extends StatelessWidget {
     return Scaffold(
       body: Stack(
         children: [
-          ..._buildBackground(context),
+          ...buildScaffoldBackground(context),
           Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -34,56 +34,8 @@ class HomeScreen extends StatelessWidget {
               ],
             ),
           ),
-          _buildBottomNav()
+          BottomNav(onPressed: () {}, icon: Icons.settings_outlined),
         ],
-      ),
-    );
-  }
-
-  List<Widget> _buildBackground(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
-
-    return [
-      Container(
-          width: size.width,
-          height: size.height,
-          decoration: const BoxDecoration(
-              color: Colors.red,
-              image: DecorationImage(
-                image: AssetImage('assets/images/background.jpg'),
-                fit: BoxFit.cover,
-              ))),
-      Container(
-          width: size.width,
-          height: size.height,
-          color: kPrimaryColor.withOpacity(0.48)),
-    ];
-  }
-
-  Widget _buildBottomNav() {
-    return Positioned(
-      bottom: kAppPaddingValue + 10,
-      left: 0,
-      right: 0,
-      child: Center(
-        child: Container(
-          width: 54,
-          height: 54,
-          decoration: BoxDecoration(
-            color: Colors.white.withOpacity(0.2),
-            shape: BoxShape.circle,
-            border: Border.fromBorderSide(
-              BorderSide(color: Colors.white.withOpacity(0.5)),
-            ),
-          ),
-          child: Center(
-            child: Icon(
-              Icons.settings_outlined,
-              color: Colors.white.withOpacity(0.6),
-              size: 30,
-            ),
-          ),
-        ),
       ),
     );
   }

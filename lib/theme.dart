@@ -12,11 +12,22 @@ ThemeData themeLight() {
         fontSize: 20,
       ),
     ),
+    cardTheme: theme.cardTheme.copyWith(
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+    ),
   );
 }
 
 ThemeData themeDark() {
-  return ThemeData.dark().copyWith(
+  ThemeData theme = ThemeData.light();
+
+  return theme.copyWith(
     primaryColor: kPrimaryColor,
+    textTheme: theme.textTheme.copyWith(
+      button: theme.textTheme.button?.copyWith(
+        color: kBtnTextColor,
+        fontSize: 20,
+      ),
+    ),
   );
 }
