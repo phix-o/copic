@@ -1,5 +1,6 @@
 import 'package:copic/common/functional.dart';
 import 'package:copic/common/widgets/widgets.dart';
+import 'package:copic/screens/colors/colors_view_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -28,7 +29,7 @@ class HomeScreen extends StatelessWidget {
                     style: textTheme.headline1?.copyWith(color: Colors.white)),
                 const SizedBox(height: 30),
                 Button(
-                  onPressed: () {},
+                  onPressed: () => _startGame(context),
                   label: 'Start Game',
                 )
               ],
@@ -38,5 +39,9 @@ class HomeScreen extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  _startGame(BuildContext context) {
+    Navigator.of(context).pushNamed(ColorsViewScreen.routeName);
   }
 }

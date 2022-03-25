@@ -17,8 +17,8 @@ class MyApp extends StatelessWidget {
         theme: themeLight(),
         darkTheme: themeDark(),
         themeMode: ThemeMode.dark,
-        // initialRoute: HomeScreen.routeName,
-        initialRoute: ColorsViewScreen.routeName,
+        initialRoute: HomeScreen.routeName,
+        // initialRoute: ColorsViewScreen.routeName,
         routes: {
           HomeScreen.routeName: (_) => const HomeScreen(),
           ColorsViewScreen.routeName: (_) => const ColorsViewScreen(),
