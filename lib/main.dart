@@ -16,12 +16,13 @@ class MyApp extends StatelessWidget {
         title: 'Flutter Demo',
         theme: themeLight(),
         darkTheme: themeDark(),
-        themeMode: ThemeMode.dark,
-        initialRoute: HomeScreen.routeName,
-        // initialRoute: ColorsViewScreen.routeName,
+        themeMode: ThemeMode.light,
+        // initialRoute: HomeScreen.routeName,
+        initialRoute: ColorsGuessScreen.routeName,
         routes: {
           HomeScreen.routeName: (_) => const HomeScreen(),
           ColorsViewScreen.routeName: (_) => const ColorsViewScreen(),
+          ColorsGuessScreen.routeName: (_) => const ColorsGuessScreen(),
         });
   }
 }

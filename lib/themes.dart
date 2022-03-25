@@ -7,11 +7,10 @@ ThemeData commonTheme = ThemeData(
     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
   ),
   textTheme: const TextTheme(
-    button: TextStyle(
-      color: kBtnTextColor,
-      fontSize: 20,
-    ),
-  ),
+      button: TextStyle(
+    color: kBtnTextColor,
+    fontSize: 20,
+  )),
 );
 
 ThemeData themeLight() {
