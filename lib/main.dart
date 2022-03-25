@@ -1,5 +1,5 @@
 import 'package:copic/screens/screens.dart';
-import 'package:copic/theme.dart';
+import 'package:copic/themes.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -16,7 +16,7 @@ class MyApp extends StatelessWidget {
         title: 'Flutter Demo',
         theme: themeLight(),
         darkTheme: themeDark(),
-        themeMode: ThemeMode.light,
+        themeMode: ThemeMode.dark,
         // initialRoute: HomeScreen.routeName,
         initialRoute: ColorsViewScreen.routeName,
         routes: {
