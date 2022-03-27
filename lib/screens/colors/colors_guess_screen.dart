@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:copic/common/storage/storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -19,9 +20,9 @@ class ColorsGuessScreen extends StatefulHookWidget {
 }
 
 class _ColorsGuessScreenState extends State<ColorsGuessScreen> {
-  final Duration timePerColor = const Duration(seconds: 5);
-
   List<ColorShape> _colorsToTest = colors..shuffle();
+
+  ValueNotifier<Duration>? _timePerColor;
   TabController? _tabController;
   AnimationController? _animationController;
 
@@ -36,7 +37,9 @@ class _ColorsGuessScreenState extends State<ColorsGuessScreen> {
 
     _colorsToTest =
         _colorsToTest.getRange(0, min(_colorsToTest.length, 10)).toList();
-    debugPrint('$_colorsToTest');
+    // debugPrint('$_colorsToTest');
+
+    _setTimePerColor();
   }
 
   @override
@@ -44,16 +47,17 @@ class _ColorsGuessScreenState extends State<ColorsGuessScreen> {
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
     Color primaryColor = Theme.of(context).primaryColor;
 
+    _timePerColor = useState(const Duration(seconds: 5));
     _tabController = useTabController(initialLength: _colorsToTest.length + 1);
     _animationController = useAnimationController(
-      duration: timePerColor,
+      duration: _timePerColor!.value,
     )..addStatusListener((status) {
         // debugPrint('State Change: $status');
         if (status != AnimationStatus.completed) return;
 
         DateTime now = DateTime.now();
         Duration thresholdTime =
-            timePerColor - const Duration(milliseconds: 50);
+            _timePerColor!.value - const Duration(milliseconds: 50);
         if (now.difference(_lastColorAdvance) < thresholdTime) return;
 
         _advanceToNextColor();
@@ -179,5 +183,22 @@ class _ColorsGuessScreenState extends State<ColorsGuessScreen> {
     } else {
       animationController.reset();
     }
+  }
+
+  Future<void> _setTimePerColor() async {
+    String difficulty = await LocalStorage.read('difficulty') ?? 'Easy';
+    Duration timePerColor = const Duration(seconds: 5);
+
+    switch (difficulty.toLowerCase()) {
+      case 'medium':
+        timePerColor = const Duration(seconds: 3);
+        break;
+      case 'hard':
+        timePerColor = const Duration(seconds: 1);
+        break;
+      default:
+    }
+
+    _timePerColor?.value = timePerColor;
   }
 }

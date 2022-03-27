@@ -1,8 +1,16 @@
-import 'package:copic/screens/screens.dart';
-import 'package:copic/themes.dart';
 import 'package:flutter/material.dart';
 
-void main() {
+import 'package:copic/common/storage/storage.dart';
+import 'package:copic/screens/screens.dart';
+import 'package:copic/themes.dart';
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  if (await LocalStorage.read('difficulty') == null) {
+    await LocalStorage.save('difficulty', 'Easy');
+  }
+
   runApp(const MyApp());
 }
 
