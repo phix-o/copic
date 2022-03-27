@@ -37,7 +37,7 @@ class ColorsViewScreen extends HookWidget {
           ...buildScaffoldBackground(context),
           Center(
             child: Container(
-              height: 520,
+              height: 560,
               width: double.infinity,
               alignment: Alignment.center,
               padding: const EdgeInsets.symmetric(horizontal: kAppPaddingValue),
@@ -47,13 +47,23 @@ class ColorsViewScreen extends HookWidget {
                     child: Card(
                       child: Padding(
                         padding: const EdgeInsets.all(5.0).copyWith(top: 20.0),
-                        child: TabBarView(
-                          controller: tabController,
-                          children: _buildTabs(
-                            textTheme,
-                            tabsCount,
-                            colorsPerTab,
-                          ),
+                        child: Column(
+                          children: [
+                            Text(
+                              'Memorize the colors below',
+                              style: textTheme.headline5,
+                            ),
+                            const SizedBox(height: 20),
+                            Expanded(
+                              child: TabBarView(
+                                  controller: tabController,
+                                  children: _buildTabs(
+                                    textTheme,
+                                    tabsCount,
+                                    colorsPerTab,
+                                  )),
+                            ),
+                          ],
                         ),
                       ),
                     ),

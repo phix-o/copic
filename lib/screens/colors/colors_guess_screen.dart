@@ -34,7 +34,8 @@ class _ColorsGuessScreenState extends State<ColorsGuessScreen> {
   void initState() {
     super.initState();
 
-    _colorsToTest = _colorsToTest.getRange(0, 5).toList();
+    _colorsToTest =
+        _colorsToTest.getRange(0, min(_colorsToTest.length, 10)).toList();
     debugPrint('$_colorsToTest');
   }
 
@@ -69,7 +70,7 @@ class _ColorsGuessScreenState extends State<ColorsGuessScreen> {
         ...buildScaffoldBackground(context),
         Center(
           child: Container(
-            height: 540,
+            height: !_isEndGame ? 540 : 450,
             width: double.infinity,
             padding: const EdgeInsets.symmetric(horizontal: kAppPaddingValue),
             child: Card(
@@ -86,11 +87,18 @@ class _ColorsGuessScreenState extends State<ColorsGuessScreen> {
                         : const SizedBox.shrink(),
                     const SizedBox(height: 40),
                     Expanded(
-                      child: TabBarView(
-                        controller: _tabController,
-                        physics: const NeverScrollableScrollPhysics(
-                            parent: ScrollPhysics()),
-                        children: _buildTabs(),
+                      child: Column(
+                        children: [
+                          ..._buildInstructions(),
+                          Expanded(
+                            child: TabBarView(
+                              controller: _tabController,
+                              physics: const NeverScrollableScrollPhysics(
+                                  parent: ScrollPhysics()),
+                              children: _buildTabs(),
+                            ),
+                          ),
+                        ],
                       ),
                     ),
                     !_isEndGame
@@ -137,6 +145,17 @@ class _ColorsGuessScreenState extends State<ColorsGuessScreen> {
       total: _colorsToTest.length,
     ));
     return tabs;
+  }
+
+  List<Widget> _buildInstructions() {
+    if (!_isEndGame) {
+      return [
+        const Text('Which color is shown below?'),
+        const SizedBox(height: 10)
+      ];
+    }
+
+    return [const SizedBox.shrink()];
   }
 
   void _advanceToNextColor() {
