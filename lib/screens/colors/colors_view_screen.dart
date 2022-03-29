@@ -1,16 +1,15 @@
 import 'dart:math';
 
-import 'package:copic/common/widgets/widgets.dart';
-import 'package:copic/screens/home_screen.dart';
-import 'package:copic/screens/screens.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-import 'package:copic/config/constants.dart';
+import 'package:copic/common/widgets/widgets.dart';
 import 'package:copic/common/functional.dart';
-import 'package:copic/screens/colors/models.dart';
+import 'package:copic/common/models/color_shape.dart';
+import 'package:copic/config/constants.dart';
+import 'package:copic/screens/screens.dart';
 
 class ColorsViewScreen extends HookWidget {
   const ColorsViewScreen({Key? key}) : super(key: key);
@@ -51,7 +50,8 @@ class ColorsViewScreen extends HookWidget {
                           children: [
                             Text(
                               'Memorize the colors below',
-                              style: textTheme.headline5,
+                              style:
+                                  textTheme.headline5?.copyWith(fontSize: 18),
                             ),
                             const SizedBox(height: 20),
                             Expanded(

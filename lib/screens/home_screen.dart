@@ -1,11 +1,12 @@
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
+
 import 'package:copic/common/functional.dart';
 import 'package:copic/common/storage/storage.dart';
 import 'package:copic/common/widgets/widgets.dart';
 import 'package:copic/config/constants.dart';
 import 'package:copic/screens/colors/colors_view_screen.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
 
 class HomeScreen extends HookWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -89,7 +90,9 @@ class HomeScreen extends HookWidget {
         },
         child: Chip(
           label: Text(d),
-          backgroundColor: isSelected ? kPrimaryColor : Colors.grey.shade100,
+          backgroundColor: isSelected
+              ? kPrimaryColor.withOpacity(0.4)
+              : Colors.grey.shade200,
         ),
       ));
     }

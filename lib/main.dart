@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 
-import 'package:copic/common/storage/storage.dart';
-import 'package:copic/screens/screens.dart';
-import 'package:copic/themes.dart';
+import './common/functional.dart';
+import './common/storage/storage.dart';
+import './screens/screens.dart';
+import './themes.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -21,7 +22,8 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        title: 'Flutter Demo',
+        debugShowCheckedModeBanner: isAppDebug(),
+        title: 'Copic',
         theme: themeLight(),
         darkTheme: themeDark(),
         themeMode: ThemeMode.light,

@@ -1,13 +1,11 @@
 import 'dart:math';
 
-import 'package:copic/common/widgets/button.dart';
-import 'package:copic/screens/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import 'package:copic/common/widgets/outlined_button.dart';
-import 'package:copic/screens/colors/models.dart';
+import 'package:copic/common/models/color_shape.dart';
 
 class ColorShapeTab extends StatefulHookWidget {
   final ColorShape colorShape;
@@ -119,36 +117,5 @@ class _ColorShapeTabState extends State<ColorShapeTab> {
 
     debugPrint('Chosen color: ${_chosenColor?.name} ${color.name}');
     widget.onAdvance(color);
-  }
-}
-
-class CompletionTab extends StatelessWidget {
-  final int score;
-  final int total;
-  const CompletionTab({Key? key, required this.score, required this.total})
-      : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    TextTheme textTheme = Theme.of(context).textTheme;
-
-    int percentage = ((score / total) * 100).toInt();
-
-    return Column(
-      children: [
-        Text('Game complete 🎉', style: textTheme.headline5),
-        const SizedBox(height: 20),
-        Text('Your score was', style: textTheme.headline4),
-        const SizedBox(height: 10),
-        Text('$percentage%', style: textTheme.headline1),
-        Text('$score out of $total'),
-        const SizedBox(height: 30),
-        Button(onPressed: () => _goHome(context), label: 'Go Home'),
-      ],
-    );
-  }
-
-  _goHome(BuildContext context) {
-    Navigator.of(context).pushNamed(HomeScreen.routeName);
   }
 }

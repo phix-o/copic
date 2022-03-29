@@ -42,7 +42,7 @@ List<ColorShape> colors = [
   {
     'name': 'black',
     'color': '#FFF000000',
-    'svgUrl': 'assets/shapes/poly-5.svg'
+    'svgUrl': 'assets/shapes/poly-4.svg'
   },
   {
     'name': 'white',
