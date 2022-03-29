@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 import '../config/constants.dart';
@@ -20,4 +21,8 @@ List<Widget> buildScaffoldBackground(BuildContext context) {
         height: size.height,
         color: kPrimaryColor.withOpacity(0.48)),
   ];
+}
+
+bool isAppDebug() {
+  return kDebugMode;
 }

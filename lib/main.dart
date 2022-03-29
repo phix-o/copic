@@ -1,3 +1,4 @@
+import 'package:copic/common/functional.dart';
 import 'package:flutter/material.dart';
 
 import 'package:copic/common/storage/storage.dart';
@@ -21,7 +22,8 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        title: 'Flutter Demo',
+        debugShowCheckedModeBanner: isAppDebug(),
+        title: 'Copic',
         theme: themeLight(),
         darkTheme: themeDark(),
         themeMode: ThemeMode.light,

@@ -140,7 +140,10 @@ class CompletionTab extends StatelessWidget {
         const SizedBox(height: 20),
         Text('Your score was', style: textTheme.headline4),
         const SizedBox(height: 10),
-        Text('$percentage%', style: textTheme.headline1),
+        Text(
+          '$percentage%',
+          style: textTheme.headline1?.copyWith(fontSize: 80),
+        ),
         Text('$score out of $total'),
         const SizedBox(height: 30),
         Button(onPressed: () => _goHome(context), label: 'Go Home'),

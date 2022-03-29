@@ -51,7 +51,8 @@ class ColorsViewScreen extends HookWidget {
                           children: [
                             Text(
                               'Memorize the colors below',
-                              style: textTheme.headline5,
+                              style:
+                                  textTheme.headline5?.copyWith(fontSize: 18),
                             ),
                             const SizedBox(height: 20),
                             Expanded(

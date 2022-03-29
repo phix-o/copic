@@ -89,7 +89,9 @@ class HomeScreen extends HookWidget {
         },
         child: Chip(
           label: Text(d),
-          backgroundColor: isSelected ? kPrimaryColor : Colors.grey.shade100,
+          backgroundColor: isSelected
+              ? kPrimaryColor.withOpacity(0.4)
+              : Colors.grey.shade200,
         ),
       ));
     }
