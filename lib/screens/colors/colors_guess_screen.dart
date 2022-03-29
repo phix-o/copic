@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:copic/common/player.dart';
 import 'package:copic/common/storage/storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -37,7 +38,6 @@ class _ColorsGuessScreenState extends State<ColorsGuessScreen> {
 
     _colorsToTest =
         _colorsToTest.getRange(0, min(_colorsToTest.length, 10)).toList();
-    // debugPrint('$_colorsToTest');
 
     _setTimePerColor();
   }
@@ -60,6 +60,7 @@ class _ColorsGuessScreenState extends State<ColorsGuessScreen> {
             _timePerColor!.value - const Duration(milliseconds: 50);
         if (now.difference(_lastColorAdvance) < thresholdTime) return;
 
+        _playWrong();
         _advanceToNextColor();
         _lastColorAdvance = now;
       });
@@ -131,9 +132,13 @@ class _ColorsGuessScreenState extends State<ColorsGuessScreen> {
           colorsToTest: _colorsToTest,
           onAdvance: (ColorShape guessedColor) {
             if (guessedColor.name == colorShape.name) {
+              _playCorrect();
+
               setState(() {
                 _correctGuesses += 1;
               });
+            } else {
+              _playWrong();
             }
 
             _animationController?.stop();
@@ -167,13 +172,12 @@ class _ColorsGuessScreenState extends State<ColorsGuessScreen> {
     AnimationController animationController = _animationController!;
 
     if (tabController.index == _colorsToTest.length - 1) {
+      Future.delayed(const Duration(milliseconds: 600), () => _playGameEnd());
+
       setState(() {
         _isEndGame = true;
       });
-      debugPrint('The end: $_correctGuesses');
     }
-
-    debugPrint("Current Index: ${tabController.index} $_isEndGame");
 
     tabController.index =
         min(_colorsToTest.length + 1, tabController.index + 1);
@@ -194,11 +198,23 @@ class _ColorsGuessScreenState extends State<ColorsGuessScreen> {
         timePerColor = const Duration(seconds: 3);
         break;
       case 'hard':
-        timePerColor = const Duration(seconds: 1);
+        timePerColor = const Duration(seconds: 2);
         break;
       default:
     }
 
     _timePerColor?.value = timePerColor;
+  }
+
+  Future<void> _playCorrect() async {
+    await TonePlayer.instance.play('right_answer.mp3');
+  }
+
+  Future<void> _playWrong() async {
+    await TonePlayer.instance.play('wrong_answer.mp3', volume: 0.8);
+  }
+
+  Future<void> _playGameEnd() async {
+    await TonePlayer.instance.play('game_over.mp3', volume: 0.8);
   }
 }
