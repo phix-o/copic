@@ -1,7 +1,7 @@
 # copic
 [![Codemagic build status](https://api.codemagic.io/apps/62416a48971f58d31ee82344/62438cd1971f58f28c9736f3/status_badge.svg)](https://codemagic.io/apps/62416a48971f58d31ee82344/62438cd1971f58f28c9736f3/latest_build)
 
-A new Flutter project.
+Copic is a simple game app for kids.
 
 ## Getting Started
 
