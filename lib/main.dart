@@ -1,9 +1,9 @@
-import 'package:copic/common/functional.dart';
 import 'package:flutter/material.dart';
 
-import 'package:copic/common/storage/storage.dart';
-import 'package:copic/screens/screens.dart';
-import 'package:copic/themes.dart';
+import './common/functional.dart';
+import './common/storage/storage.dart';
+import './screens/screens.dart';
+import './themes.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

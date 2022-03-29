@@ -1,15 +1,15 @@
 import 'dart:math';
 
-import 'package:copic/common/player.dart';
-import 'package:copic/common/storage/storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 
-import 'package:copic/screens/colors/models.dart';
-import 'package:copic/screens/colors/widgets.dart';
+import 'package:copic/common/common.dart';
+import 'package:copic/common/storage/storage.dart';
+import 'package:copic/common/models/color_shape.dart';
 import 'package:copic/config/constants.dart';
-import 'package:copic/common/functional.dart';
+
+import './widgets/widgets.dart';
 
 class ColorsGuessScreen extends StatefulHookWidget {
   const ColorsGuessScreen({Key? key}) : super(key: key);
